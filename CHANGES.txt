@@ -1,0 +1,10 @@
+Changelog
+=========
+
+For changes before verison 3.0, see ``HISTORY.txt``.
+
+3.0.0 (unreleased)
+------------------
+
+- Extracted from ``AccessControl 3.0.11``-
+
