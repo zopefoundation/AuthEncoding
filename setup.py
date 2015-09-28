@@ -1,6 +1,6 @@
 ##############################################################################
 #
-# Copyright (c) 2010 Zope Foundation and Contributors.
+# Copyright (c) 2010-2015 Zope Foundation and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -14,31 +14,33 @@
 
 from setuptools import setup, find_packages
 
-setup(name='AuthEncoding',
-      version='3.1.0.dev0',
-      url='https://github.com/zopefoundation/AuthEncoding',
-      license='ZPL 2.1',
-      description="Framework for handling LDAP style password hashes.",
-      author='Zope Foundation and Contributors',
-      author_email='zope-dev@zope.org',
-      long_description=(open('README.txt').read() + '\n' +
-                        open('CHANGES.txt').read()),
-      packages=find_packages('src'),
-      package_dir={'': 'src'},
-      classifiers=[
-          "Development Status :: 6 - Mature",
-          "Environment :: Web Environment",
-          "Framework :: Zope2",
-          "License :: OSI Approved :: Zope Public License",
-          "Operating System :: OS Independent",
-          "Programming Language :: Python",
-          "Programming Language :: Python :: 2 :: Only",
-          "Programming Language :: Python :: 2.6",
-          "Programming Language :: Python :: 2.7",
-          "Programming Language :: Python :: Implementation :: CPython",
-      ],
-      install_requires=[
-      ],
-      include_package_data=True,
-      zip_safe=False,
-      )
+setup(
+    name='AuthEncoding',
+    version='3.1.0.dev0',
+    url='https://github.com/zopefoundation/AuthEncoding',
+    license='ZPL 2.1',
+    description="Framework for handling LDAP style password hashes.",
+    author='Zope Foundation and Contributors',
+    author_email='zope-dev@zope.org',
+    long_description=(open('README.txt').read() + '\n' +
+                      open('CHANGES.txt').read()),
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
+    classifiers=[
+        "Development Status :: 6 - Mature",
+        "Environment :: Web Environment",
+        "Framework :: Zope2",
+        "License :: OSI Approved :: Zope Public License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2 :: Only",
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: Implementation :: CPython",
+    ],
+    install_requires=[
+
+    ],
+    include_package_data=True,
+    zip_safe=False,
+)
