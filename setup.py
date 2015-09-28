@@ -16,13 +16,13 @@ from setuptools import setup, find_packages
 
 setup(name='AuthEncoding',
       version='3.1.0.dev0',
-      url='http://pypi.python.org/pypi/AuthEncoding',
+      url='https://github.com/zopefoundation/AuthEncoding',
       license='ZPL 2.1',
       description="Framework for handling LDAP style password hashes.",
       author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
-      long_description=open('README.txt').read() + '\n' +
-                       open('CHANGES.txt').read(),
+      long_description=(open('README.txt').read() + '\n' +
+                        open('CHANGES.txt').read()),
       packages=find_packages('src'),
       package_dir={'': 'src'},
       classifiers=[
