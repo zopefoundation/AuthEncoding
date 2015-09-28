@@ -1,14 +1,19 @@
+.cache
+.tox
 bin
 build
 dist
+htmlcov
 lib
 parts
 
 *.dll
+*.egg-info
 *.pyc
 *.pyo
 *.so
+.coverage
 .installed.cfg
 develop-eggs
 eggs
-*.egg-info
+testreport.xml
