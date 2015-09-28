@@ -15,7 +15,7 @@
 from setuptools import setup, find_packages
 
 setup(name='AuthEncoding',
-      version='3.0.0',
+      version='3.1.0.dev0',
       url='http://pypi.python.org/pypi/AuthEncoding',
       license='ZPL 2.1',
       description="Framework for handling LDAP style password hashes.",
