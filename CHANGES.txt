@@ -1,8 +1,6 @@
 Changelog
 =========
 
-For changes before verison 3.0, see ``HISTORY.txt``.
-
 3.1.0 (unreleased)
 ------------------
 
@@ -12,5 +10,5 @@ For changes before verison 3.0, see ``HISTORY.txt``.
 3.0.0 (2015-09-28)
 ------------------
 
-- Extracted from ``AccessControl 3.0.11``-
+- Extracted from ``AccessControl 3.0.11``
 
