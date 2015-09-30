@@ -12,4 +12,6 @@
 ##############################################################################
 
 
-from .AuthEncoding import is_encrypted, pw_encrypt, pw_validate
+from .AuthEncoding import (is_encrypted, pw_encrypt, pw_validate,
+                           registerScheme, listSchemes,
+                           constant_time_compare)
