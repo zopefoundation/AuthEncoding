@@ -93,10 +93,7 @@ def registerScheme(id, s):
 
 
 def listSchemes():
-    r = []
-    for id, prefix, scheme in _schemes:
-        r.append(id)
-    return r
+    return [id for id, prefix, scheme in _schemes]
 
 
 class SSHADigestScheme:
