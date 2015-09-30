@@ -150,6 +150,18 @@ class SHADigestScheme:
 registerScheme(u'SHA', SHADigestScheme())
 
 
+class SHA256DigestScheme:
+
+    def encrypt(self, pw):
+        return b(sha256(b(pw)).hexdigest())
+
+    def validate(self, reference, attempt):
+        a = self.encrypt(attempt)
+        return constant_time_compare(a, reference)
+
+registerScheme(u'SHA256', SHA256DigestScheme())
+
+
 # Bogosity on various platforms due to ITAR restrictions
 try:
     from crypt import crypt
