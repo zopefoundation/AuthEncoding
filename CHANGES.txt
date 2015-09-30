@@ -6,7 +6,7 @@ Changelog
 
 - Supporting Python 3.3 up to 3.5 and PyPy2.
 
-- Added ``SHA256DigestScheme`.
+- Added ``SHA256DigestScheme``.
 
 
 3.0.0 (2015-09-28)
