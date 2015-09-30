@@ -67,8 +67,8 @@ def testLongPassword(schema_id):
     assert AuthEncoding.pw_validate(enc, pw)
     assert not AuthEncoding.pw_validate(enc, enc)
     assert not AuthEncoding.pw_validate(enc, u'xxx')
-    if schema_id != u'CRYPT':
-        # crypt truncates passwords and would fail these tests.
+    if u'CRYPT' not in schema_id:
+        # crypt and bcrypt truncates passwords and would fail these tests.
         assert not AuthEncoding.pw_validate(enc, pw[:-2])
         assert not AuthEncoding.pw_validate(enc, pw[2:])
 
