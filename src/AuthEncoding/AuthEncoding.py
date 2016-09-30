@@ -162,6 +162,43 @@ class SHA256DigestScheme:
 registerScheme(u'SHA256', SHA256DigestScheme())
 
 
+# Bcrypt support may not have been requested at installation time
+# - installed via the 'bcrypt' extra
+try:
+    import bcrypt
+except ImportError:
+    bcrypt = None
+
+
+if bcrypt is not None:
+
+    # bcrypt routines require input as bytes.
+
+    def _ensure_bytes(pw, encoding='utf-8'):
+        """Ensures the given password `pw` is returned as bytes.
+        """
+        if isinstance(pw, six.text_type):
+            pw = pw.encode(encoding)
+        return pw
+
+    class BCRYPTHashingScheme:
+         """A BCRYPT hashing scheme."""
+
+         def encrypt(self, pw):
+             return bcrypt.hashpw(_ensure_bytes(pw), bcrypt.gensalt())
+
+         def validate(self, reference, attempt):
+             try:
+                 hashed = bcrypt.hashpw(_ensure_bytes(attempt), reference)
+             except ValueError:
+                 valid = False
+             else:
+                 valid = hashed == reference
+             return valid
+
+    registerScheme(u'BCRYPT', BCRYPTHashingScheme())
+
+
 # Bogosity on various platforms due to ITAR restrictions
 try:
     from crypt import crypt
