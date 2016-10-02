@@ -188,7 +188,12 @@ if bcrypt is not None:
              return bcrypt.hashpw(_ensure_bytes(pw), bcrypt.gensalt())
 
          def validate(self, reference, attempt):
-             return bcrypt.checkpw(_ensure_bytes(attempt), reference)
+             try:
+                 valid = bcrypt.checkpw(_ensure_bytes(attempt), reference)
+             except ValueError:
+                 # Usually due to an invalid salt
+                 valid = False
+             return valid
 
     registerScheme(u'BCRYPT', BCRYPTHashingScheme())
 
