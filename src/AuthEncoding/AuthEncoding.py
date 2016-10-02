@@ -170,31 +170,27 @@ except ImportError:
     bcrypt = None
 
 
+class BCRYPTHashingScheme:
+     """A BCRYPT hashing scheme."""
+
+     @staticmethod
+     def _ensure_bytes(pw, encoding='utf-8'):
+         """Ensures the given password `pw` is returned as bytes."""
+         if isinstance(pw, six.text_type):
+             pw = pw.encode(encoding)
+         return pw
+
+     def encrypt(self, pw):
+         return bcrypt.hashpw(self._ensure_bytes(pw), bcrypt.gensalt())
+
+     def validate(self, reference, attempt):
+         try:
+             return bcrypt.checkpw(self._ensure_bytes(attempt), reference)
+         except ValueError:
+             # Usually due to an invalid salt
+             return False
+
 if bcrypt is not None:
-
-    # bcrypt routines require input as bytes.
-
-    def _ensure_bytes(pw, encoding='utf-8'):
-        """Ensures the given password `pw` is returned as bytes.
-        """
-        if isinstance(pw, six.text_type):
-            pw = pw.encode(encoding)
-        return pw
-
-    class BCRYPTHashingScheme:
-         """A BCRYPT hashing scheme."""
-
-         def encrypt(self, pw):
-             return bcrypt.hashpw(_ensure_bytes(pw), bcrypt.gensalt())
-
-         def validate(self, reference, attempt):
-             try:
-                 valid = bcrypt.checkpw(_ensure_bytes(attempt), reference)
-             except ValueError:
-                 # Usually due to an invalid salt
-                 valid = False
-             return valid
-
     registerScheme(u'BCRYPT', BCRYPTHashingScheme())
 
 
