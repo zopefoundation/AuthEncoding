@@ -6,6 +6,9 @@ Changelog
 
 - Drop Python 2.6 support.
 
+- Add ``BCRYPTHashingScheme``, optionally available if package is
+  installed with the `bcrypt` extra.
+
 
 4.0.0 (2015-09-30)
 ------------------
@@ -19,4 +22,3 @@ Changelog
 ------------------
 
 - Extracted from ``AccessControl 3.0.11``
-

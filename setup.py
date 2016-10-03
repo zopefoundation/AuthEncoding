@@ -51,6 +51,9 @@ setup(
         'test': [
             'pytest',
         ],
+        'bcrypt': [
+            'bcrypt',
+        ],
     },
     include_package_data=True,
     zip_safe=False,
