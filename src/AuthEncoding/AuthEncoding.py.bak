@@ -18,7 +18,7 @@ from hashlib import sha1 as sha
 from hashlib import sha256
 from os import getpid
 import time
-from .compat import int, b, u
+from .compat import long, b, u
 
 
 # Use the system PRNG if possible
@@ -89,7 +89,7 @@ def registerScheme(id, s):
     '''
     Registers an LDAP password encoding scheme.
     '''
-    _schemes.append((id, '{%s}' % id, s))
+    _schemes.append((id, u'{%s}' % id, s))
 
 
 def listSchemes():
@@ -130,7 +130,7 @@ class SSHADigestScheme:
         pw = b(pw)
         return b2a_base64(sha(pw + salt).digest() + salt)[:-1]
 
-registerScheme('SSHA', SSHADigestScheme())
+registerScheme(u'SSHA', SSHADigestScheme())
 
 
 class SHADigestScheme:
@@ -147,7 +147,7 @@ class SHADigestScheme:
         return b2a_base64(sha(pw).digest())[:-1]
 
 
-registerScheme('SHA', SHADigestScheme())
+registerScheme(u'SHA', SHADigestScheme())
 
 
 class SHA256DigestScheme:
@@ -159,7 +159,7 @@ class SHA256DigestScheme:
         a = self.encrypt(attempt)
         return constant_time_compare(a, reference)
 
-registerScheme('SHA256', SHA256DigestScheme())
+registerScheme(u'SHA256', SHA256DigestScheme())
 
 
 # Bcrypt support may not have been requested at installation time
@@ -191,7 +191,7 @@ class BCRYPTHashingScheme:
              return False
 
 if bcrypt is not None:
-    registerScheme('BCRYPT', BCRYPTHashingScheme())
+    registerScheme(u'BCRYPT', BCRYPTHashingScheme())
 
 
 # Bogosity on various platforms due to ITAR restrictions
@@ -205,9 +205,9 @@ if crypt is not None:
     class CryptDigestScheme:
 
         def generate_salt(self):
-            choices = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                       "abcdefghijklmnopqrstuvwxyz"
-                       "0123456789./")
+            choices = (u"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                       u"abcdefghijklmnopqrstuvwxyz"
+                       u"0123456789./")
             return _choice(choices) + _choice(choices)
 
         def encrypt(self, pw):
@@ -225,31 +225,31 @@ if crypt is not None:
                 return u(pw)
             return b(pw)
 
-    registerScheme('CRYPT', CryptDigestScheme())
+    registerScheme(u'CRYPT', CryptDigestScheme())
 
 
 class MySQLDigestScheme:
 
     def encrypt(self, pw):
         pw = u(pw)
-        nr = int(1345345333)
+        nr = long(1345345333)
         add = 7
-        nr2 = int(0x12345671)
+        nr2 = long(0x12345671)
         for i in pw:
             if i == ' ' or i == '\t':
                 continue
             nr ^= (((nr & 63) + add) * ord(i)) + (nr << 8)
             nr2 += (nr2 << 8) ^ nr
             add += ord(i)
-        r0 = nr & ((int(1) << 31) - int(1))
-        r1 = nr2 & ((int(1) << 31) - int(1))
-        return ("%08lx%08lx" % (r0, r1)).encode('ascii')
+        r0 = nr & ((long(1) << 31) - long(1))
+        r1 = nr2 & ((long(1) << 31) - long(1))
+        return (u"%08lx%08lx" % (r0, r1)).encode('ascii')
 
     def validate(self, reference, attempt):
         a = self.encrypt(attempt)
         return constant_time_compare(a, reference)
 
-registerScheme('MYSQL', MySQLDigestScheme())
+registerScheme(u'MYSQL', MySQLDigestScheme())
 
 
 def pw_validate(reference, attempt):
@@ -273,7 +273,7 @@ def is_encrypted(pw):
     return 0
 
 
-def pw_encrypt(pw, encoding='SSHA'):
+def pw_encrypt(pw, encoding=u'SSHA'):
     """Encrypt the provided plain text password using the encoding if provided
     and return it in an LDAP-style representation."""
     encoding = u(encoding)
