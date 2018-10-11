@@ -42,7 +42,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
-        "Topic :: System :: Systems Administration :: Authentication/Directory :: LDAP",
+        "Topic :: System :: Systems Administration :: Authentication/Directory :: LDAP",  # noqa: E501
     ],
     install_requires=[
         'six',

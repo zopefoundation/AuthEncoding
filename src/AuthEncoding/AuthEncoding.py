@@ -130,6 +130,7 @@ class SSHADigestScheme:
         pw = b(pw)
         return b2a_base64(sha(pw + salt).digest() + salt)[:-1]
 
+
 registerScheme(u'SSHA', SSHADigestScheme())
 
 
@@ -159,6 +160,7 @@ class SHA256DigestScheme:
         a = self.encrypt(attempt)
         return constant_time_compare(a, reference)
 
+
 registerScheme(u'SHA256', SHA256DigestScheme())
 
 
@@ -171,24 +173,25 @@ except ImportError:
 
 
 class BCRYPTHashingScheme:
-     """A BCRYPT hashing scheme."""
+    """A BCRYPT hashing scheme."""
 
-     @staticmethod
-     def _ensure_bytes(pw, encoding='utf-8'):
-         """Ensures the given password `pw` is returned as bytes."""
-         if isinstance(pw, six.text_type):
-             pw = pw.encode(encoding)
-         return pw
+    @staticmethod
+    def _ensure_bytes(pw, encoding='utf-8'):
+        """Ensures the given password `pw` is returned as bytes."""
+        if isinstance(pw, six.text_type):
+            pw = pw.encode(encoding)
+        return pw
 
-     def encrypt(self, pw):
-         return bcrypt.hashpw(self._ensure_bytes(pw), bcrypt.gensalt())
+    def encrypt(self, pw):
+        return bcrypt.hashpw(self._ensure_bytes(pw), bcrypt.gensalt())
 
-     def validate(self, reference, attempt):
-         try:
-             return bcrypt.checkpw(self._ensure_bytes(attempt), reference)
-         except ValueError:
-             # Usually due to an invalid salt
-             return False
+    def validate(self, reference, attempt):
+        try:
+            return bcrypt.checkpw(self._ensure_bytes(attempt), reference)
+        except ValueError:
+            # Usually due to an invalid salt
+            return False
+
 
 if bcrypt is not None:
     registerScheme(u'BCRYPT', BCRYPTHashingScheme())
@@ -249,6 +252,7 @@ class MySQLDigestScheme:
         a = self.encrypt(attempt)
         return constant_time_compare(a, reference)
 
+
 registerScheme(u'MYSQL', MySQLDigestScheme())
 
 
@@ -281,5 +285,6 @@ def pw_encrypt(pw, encoding=u'SSHA'):
         if encoding == id:
             return b(prefix) + scheme.encrypt(pw)
     raise ValueError('Not supported: %s' % encoding)
+
 
 pw_encode = pw_encrypt  # backward compatibility
