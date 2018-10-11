@@ -3,9 +3,14 @@ language: python
 sudo: false
 python:
     - 2.7
-    - 3.3
-    - 3.4
     - 3.5
+    - pypy
+    - pypy3
+matrix:
+    include:
+        - python: "3.7"
+          dist: xenial
+          sudo: true
 install:
     - python bootstrap.py
     - bin/buildout
@@ -13,3 +18,7 @@ script:
     - bin/test
 notifications:
     email: false
+cache:
+  pip: true
+  directories:
+    - eggs/
