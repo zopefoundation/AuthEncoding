@@ -1,5 +1,6 @@
 include *.txt
 include *.rst
+include .coveragerc
 
 recursive-include include *
 recursive-include src/AuthEncoding *

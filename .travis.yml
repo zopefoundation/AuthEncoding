@@ -16,6 +16,8 @@ install:
     - bin/buildout
 script:
     - bin/test
+after_success:
+    - coveralls
 notifications:
     email: false
 cache:
