@@ -13,6 +13,7 @@ matrix:
           dist: xenial
           sudo: true
 install:
+    - pip install coveralls
     - python bootstrap.py
     - bin/buildout
 script:
