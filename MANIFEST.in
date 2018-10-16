@@ -2,7 +2,4 @@ include *.txt
 include *.rst
 include .coveragerc
 
-recursive-include src/AuthEncoding *
-
-global-exclude *.pyc
-global-exclude *.pyo
+recursive-include src/AuthEncoding *.py
