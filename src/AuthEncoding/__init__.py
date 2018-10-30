@@ -11,7 +11,9 @@
 #
 ##############################################################################
 
-
-from .AuthEncoding import (is_encrypted, pw_encrypt, pw_validate,
-                           registerScheme, listSchemes,
-                           constant_time_compare)
+from .AuthEncoding import constant_time_compare  # noqa: F401
+from .AuthEncoding import is_encrypted  # noqa: F401
+from .AuthEncoding import listSchemes  # noqa: F401
+from .AuthEncoding import pw_encrypt  # noqa: F401
+from .AuthEncoding import pw_validate  # noqa: F401
+from .AuthEncoding import registerScheme  # noqa: F401

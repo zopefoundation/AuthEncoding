@@ -1,10 +1,7 @@
 include *.txt
 include *.rst
+include .coveragerc
+include buildout.cfg
+include tox.ini
 
-recursive-include include *
-recursive-include src/AuthEncoding *
-
-global-exclude *.dll
-global-exclude *.pyc
-global-exclude *.pyo
-global-exclude *.so
+recursive-include src/AuthEncoding *.py

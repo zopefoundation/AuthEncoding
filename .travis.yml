@@ -3,13 +3,25 @@ language: python
 sudo: false
 python:
     - 2.7
-    - 3.3
-    - 3.4
     - 3.5
+    - 3.6
+    - pypy
+    - pypy3
+matrix:
+    include:
+        - python: "3.7"
+          dist: xenial
+          sudo: true
 install:
-    - python bootstrap.py
-    - bin/buildout
+    - pip install coverage coveralls
+    - pip install -e .[test,bcrypt]
 script:
-    - bin/test
+    - coverage run $(which pytest)
+after_success:
+    - coveralls
 notifications:
     email: false
+cache:
+  pip: true
+  directories:
+    - eggs/
