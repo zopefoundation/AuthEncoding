@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='AuthEncoding',
-    version='4.1.0.dev0',
+    version='4.1',
     url='https://github.com/zopefoundation/AuthEncoding',
     license='ZPL 2.1',
     description="Framework for handling LDAP style password hashes.",
