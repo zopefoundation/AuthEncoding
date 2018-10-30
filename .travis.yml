@@ -13,10 +13,10 @@ matrix:
           dist: xenial
           sudo: true
 install:
-    - pip install coveralls zc.buildout
-    - buildout
+    - pip install coverage coveralls
+    - pip install -e .[test,bcrypt]
 script:
-    - bin/test
+    - coverage run py.test
 after_success:
     - coveralls
 notifications:
