@@ -270,6 +270,7 @@ def pw_validate(reference, attempt):
 
 
 def is_encrypted(pw):
+    pw = b(pw)
     for id, prefix, scheme in _schemes:
         lp = len(prefix)
         if pw[:lp] == b(prefix):

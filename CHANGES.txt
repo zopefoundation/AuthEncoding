@@ -11,6 +11,8 @@ Changelog
 - Add ``BCRYPTHashingScheme``, optionally available if package is
   installed with the `bcrypt` extra.
 
+- Accept bytes as input to ``AuthEncoding.is_encrypted``.
+
 
 4.0.0 (2015-09-30)
 ------------------

@@ -99,3 +99,10 @@ def testEncryptWithNotSupportedScheme():
 def testEncryptAcceptsTextAndBinaryEncodingNames():
     assert (AuthEncoding.pw_encrypt(u'asdf', b'SHA') ==
             AuthEncoding.pw_encrypt(u'asdf', u'SHA'))
+
+
+def testIsEncryptedAcceptsTextAndBinary():
+    assert AuthEncoding.is_encrypted(b'{SHA}')
+    assert AuthEncoding.is_encrypted(u'{SHA}')
+    assert not AuthEncoding.is_encrypted(b'foo')
+    assert not AuthEncoding.is_encrypted(u'foo')
