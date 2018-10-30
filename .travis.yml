@@ -16,7 +16,7 @@ install:
     - pip install coverage coveralls
     - pip install -e .[test,bcrypt]
 script:
-    - coverage run py.test
+    - coverage run $(which pytest)
 after_success:
     - coveralls
 notifications:
