@@ -29,13 +29,13 @@ setup(
     classifiers=[
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
-        "Framework :: Zope2",
+        "Framework :: Zope",
+        "Framework :: Zope :: 5",
         "License :: OSI Approved :: Zope Public License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -44,10 +44,8 @@ setup(
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: System :: Systems Administration :: Authentication/Directory :: LDAP",  # noqa: E501
     ],
-    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*',
-    install_requires=[
-        'six',
-    ],
+    python_requires='>=3.6, <4',
+    install_requires=[],
     extras_require={
         'test': [
             'pytest',
