@@ -14,6 +14,8 @@ parts
 *.so
 .coverage
 .installed.cfg
+default.profraw
 develop-eggs
 eggs
+pyvenv.cfg
 testreport.xml
