@@ -18,6 +18,11 @@ setup(
     name='AuthEncoding',
     version='5.0.dev0',
     url='https://github.com/zopefoundation/AuthEncoding',
+    project_urls={
+        'Sources': 'https://github.com/zopefoundation/AuthEncoding',
+        'Issue Tracker': ('https://github.com/zopefoundation/'
+                          'AuthEncoding/issues'),
+    },
     license='ZPL 2.1',
     description="Framework for handling LDAP style password hashes.",
     author='Zope Foundation and Contributors',
@@ -29,7 +34,10 @@ setup(
     classifiers=[
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
+        "Framework :: Zope2",
         "Framework :: Zope",
+        "Framework :: Zope :: 2",
+        "Framework :: Zope :: 4",
         "Framework :: Zope :: 5",
         "License :: OSI Approved :: Zope Public License",
         "Operating System :: OS Independent",
@@ -44,8 +52,10 @@ setup(
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: System :: Systems Administration :: Authentication/Directory :: LDAP",  # noqa: E501
     ],
-    python_requires='>=3.6, <4',
-    install_requires=[],
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
+    install_requires=[
+        'six',
+    ],
     extras_require={
         'test': [
             'pytest',
