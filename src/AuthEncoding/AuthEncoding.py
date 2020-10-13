@@ -37,7 +37,7 @@ def _reseed():
         # properties of the chosen random sequence slightly, but this
         # is better than absolute predictability.
         random.seed(sha256(
-            "{}{}{}".format(random.getstate(), time.time(), getpid())
+            f"{random.getstate()}{time.time()}{getpid()}"
         ).digest())
 
 
