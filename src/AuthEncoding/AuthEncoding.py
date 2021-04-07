@@ -26,7 +26,7 @@ import random
 try:
     random = random.SystemRandom()
     using_sysrandom = True
-except NotImplementedError:
+except NotImplementedError:  # pragma: no cover
     using_sysrandom = False
 
 
@@ -38,7 +38,7 @@ def _reseed():
         # time a random string is required. This may change the
         # properties of the chosen random sequence slightly, but this
         # is better than absolute predictability.
-        random.seed(sha256(
+        random.seed(sha256(  # pragma: no cover
             "%s%s%s" % (random.getstate(), time.time(), getpid())
         ).digest())
 
@@ -119,7 +119,7 @@ class SSHADigestScheme:
     def validate(self, reference, attempt):
         try:
             ref = a2b_base64(reference)
-        except binascii.Error:
+        except binascii.Error:  # pragma: no cover
             # Not valid base64.
             return 0
         salt = ref[20:]
@@ -224,7 +224,7 @@ if crypt is not None:
         def _recode_password(self, pw):
             # crypt always requires `str` which has a different meaning among
             # the Python versions:
-            if six.PY3:
+            if six.PY3:  # pragma: PY3
                 return u(pw)
             return b(pw)
 
