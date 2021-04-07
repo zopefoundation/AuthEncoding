@@ -1,9 +1,9 @@
 import six
 
 if six.PY3:
-    long = int
+    long = int  # pragma: PY3
 else:
-    long = long
+    long = long  # pragma: PY2
 
 
 def b(arg):
