@@ -1,14 +1,12 @@
-include .coveragerc
-include tox.ini
-include *.py
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/pure-python
+include *.rst
 include *.txt
+include buildout.cfg
+include tox.ini
 
-include *.yml
-exclude *.yml
-
-include .gitignore
-exclude .gitignore
-
-exclude MANIFEST.in
-
-recursive-include src/AuthEncoding *.py
+recursive-include src *.pt
+recursive-include src *.py
+recursive-include src *.rst
+recursive-include src *.txt
+recursive-include src *.zcml
