@@ -202,6 +202,13 @@ try:
     from crypt import crypt
 except ImportError:
     crypt = None
+else:
+    try:
+        crypt(u'', u'')
+    except Exception:
+        # At least on PyPy2 using ``crypt`` with unicode strings is broken and
+        # fails the tests, so omit it here:
+        crypt = None
 
 if crypt is not None:
 

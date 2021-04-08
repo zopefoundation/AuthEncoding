@@ -62,9 +62,10 @@ def testShortPassword(schema_id):
 
 long_password_parameters = [
     x for x in AuthEncoding.listSchemes() if x != 'CRYPT']
-long_password_parameters.append(
-    pytest.param('CRYPT',
-                 marks=pytest.mark.xfail(reason='CRYPT fails on GHA')))
+if 'CRYPT' in AuthEncoding.listSchemes():
+    long_password_parameters.append(
+        pytest.param('CRYPT',
+                     marks=pytest.mark.xfail(reason='CRYPT fails on GHA')))
 
 
 @pytest.mark.parametrize('schema_id', long_password_parameters)
