@@ -1,8 +1,12 @@
 Changelog
 =========
 
-4.3 (unreleased)
-----------------
+4.2.1 (2021-04-08)
+------------------
+
+- Test on GHA.
+
+- Skip some tests for broken crypt implementations.
 
 
 4.2 (2020-09-30)
