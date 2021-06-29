@@ -25,4 +25,4 @@ testenv-commands = [
 coverage-command = "py.test --cov=src src"
 
 [coverage]
-fail-under = 96
+fail-under = 95
