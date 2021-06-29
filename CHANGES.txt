@@ -4,7 +4,8 @@ Changelog
 4.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Replace hand-rolled salt creation with ``os.urandom``
+  (`#8 <https://github.com/zopefoundation/AuthEncoding/issues/8>`)
 
 
 4.2.1 (2021-04-08)

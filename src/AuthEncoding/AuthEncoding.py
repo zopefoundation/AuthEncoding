@@ -17,6 +17,7 @@ from binascii import b2a_base64, a2b_base64
 from hashlib import sha1 as sha
 from hashlib import sha256
 from os import getpid
+from os import urandom
 import time
 from .compat import long, b, u
 
@@ -108,10 +109,7 @@ class SSHADigestScheme:
         # because of limitations of the binascii module.
         # 7 is what Netscape's example used and should be enough.
         # All 256 characters are available.
-        salt = b''
-        for n in range(7):
-            salt += six.int2byte(_randrange(256))
-        return salt
+        return urandom(7)
 
     def encrypt(self, pw):
         return self._encrypt_with_salt(pw, self.generate_salt())
