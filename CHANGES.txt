@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.3 (unreleased)
+4.3 (2021-06-29)
 ----------------
 
 - Replace hand-rolled salt creation with ``os.urandom``
