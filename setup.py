@@ -53,7 +53,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: System :: Systems Administration ::"
-        "Authentication/Directory :: LDAP",
+        " Authentication/Directory :: LDAP",
     ],
     python_requires='>=3.7',
     extras_require={
