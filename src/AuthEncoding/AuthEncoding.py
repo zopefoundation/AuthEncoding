@@ -15,6 +15,7 @@ import binascii
 # Use the system PRNG if possible
 import random
 import time
+import warnings
 from binascii import a2b_base64
 from binascii import b2a_base64
 from hashlib import sha1 as sha
@@ -207,18 +208,16 @@ if bcrypt is not None:
     registerScheme('BCRYPT', BCRYPTHashingScheme())
 
 
-# Bogosity on various platforms due to ITAR restrictions
-try:
-    from crypt import crypt
-except ImportError:
-    crypt = None
-else:
+# Suppress deprecation warnings on Python 3.11 and up
+with warnings.catch_warnings():
+    warnings.simplefilter('ignore')
+
+    # crypt is not available on all platforms
     try:
-        crypt('', '')
-    except Exception:
-        # At least on PyPy2 using ``crypt`` with unicode strings is broken and
-        # fails the tests, so omit it here:
+        from crypt import crypt
+    except ImportError:
         crypt = None
+
 
 if crypt is not None:
 
