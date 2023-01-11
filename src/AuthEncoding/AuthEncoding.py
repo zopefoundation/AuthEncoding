@@ -12,18 +12,20 @@
 ##############################################################################
 
 import binascii
-import six
-from binascii import b2a_base64, a2b_base64
+# Use the system PRNG if possible
+import random
+import time
+from binascii import a2b_base64
+from binascii import b2a_base64
 from hashlib import sha1 as sha
 from hashlib import sha256
 from os import getpid
 from os import urandom
-import time
-from .compat import long, b, u
+
+from .compat import b
+from .compat import u
 
 
-# Use the system PRNG if possible
-import random
 try:
     random = random.SystemRandom()
     using_sysrandom = True
@@ -40,7 +42,7 @@ def _reseed():
         # properties of the chosen random sequence slightly, but this
         # is better than absolute predictability.
         random.seed(sha256(  # pragma: no cover
-            "%s%s%s" % (random.getstate(), time.time(), getpid())
+            f'{random.getstate()}{time.time()}{getpid()}'
         ).digest())
 
 
@@ -63,7 +65,7 @@ def constant_time_compare(val1, val2):
     if len(val1) != len(val2):
         return False
     result = 0
-    for x, y in zip(six.iterbytes(val1), six.iterbytes(val2)):
+    for x, y in zip(iter(val1), iter(val2)):
         result |= x ^ y
     return result == 0
 
@@ -90,11 +92,21 @@ def registerScheme(id, s):
     '''
     Registers an LDAP password encoding scheme.
     '''
-    _schemes.append((id, u'{%s}' % id, s))
+    _schemes.append((id, '{%s}' % id, s))
 
 
 def listSchemes():
-    return [id for id, prefix, scheme in _schemes]
+    return [id for id, prefix, scheme in _getSortedSchemes()]
+
+
+def _getSortedSchemes():
+    """ Return a reversed sorted sequence of encryption schemes.
+
+    Several places iterate over schemes and compare the prefix with the start
+    of a password string. Using a reverse-sorted sequence makes sure that e.g.
+    'SHA256' is always tested before 'SHA' to prevent bad matches.
+    """
+    return sorted(_schemes, reverse=True)
 
 
 class SSHADigestScheme:
@@ -129,7 +141,7 @@ class SSHADigestScheme:
         return b2a_base64(sha(pw + salt).digest() + salt)[:-1]
 
 
-registerScheme(u'SSHA', SSHADigestScheme())
+registerScheme('SSHA', SSHADigestScheme())
 
 
 class SHADigestScheme:
@@ -146,7 +158,7 @@ class SHADigestScheme:
         return b2a_base64(sha(pw).digest())[:-1]
 
 
-registerScheme(u'SHA', SHADigestScheme())
+registerScheme('SHA', SHADigestScheme())
 
 
 class SHA256DigestScheme:
@@ -159,7 +171,7 @@ class SHA256DigestScheme:
         return constant_time_compare(a, reference)
 
 
-registerScheme(u'SHA256', SHA256DigestScheme())
+registerScheme('SHA256', SHA256DigestScheme())
 
 
 # Bcrypt support may not have been requested at installation time
@@ -176,7 +188,7 @@ class BCRYPTHashingScheme:
     @staticmethod
     def _ensure_bytes(pw, encoding='utf-8'):
         """Ensures the given password `pw` is returned as bytes."""
-        if isinstance(pw, six.text_type):
+        if isinstance(pw, str):
             pw = pw.encode(encoding)
         return pw
 
@@ -192,7 +204,7 @@ class BCRYPTHashingScheme:
 
 
 if bcrypt is not None:
-    registerScheme(u'BCRYPT', BCRYPTHashingScheme())
+    registerScheme('BCRYPT', BCRYPTHashingScheme())
 
 
 # Bogosity on various platforms due to ITAR restrictions
@@ -202,7 +214,7 @@ except ImportError:
     crypt = None
 else:
     try:
-        crypt(u'', u'')
+        crypt('', '')
     except Exception:
         # At least on PyPy2 using ``crypt`` with unicode strings is broken and
         # fails the tests, so omit it here:
@@ -213,9 +225,9 @@ if crypt is not None:
     class CryptDigestScheme:
 
         def generate_salt(self):
-            choices = (u"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                       u"abcdefghijklmnopqrstuvwxyz"
-                       u"0123456789./")
+            choices = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                       "abcdefghijklmnopqrstuvwxyz"
+                       "0123456789./")
             return _choice(choices) + _choice(choices)
 
         def encrypt(self, pw):
@@ -227,38 +239,35 @@ if crypt is not None:
             return constant_time_compare(a, reference)
 
         def _recode_password(self, pw):
-            # crypt always requires `str` which has a different meaning among
-            # the Python versions:
-            if six.PY3:  # pragma: PY3
-                return u(pw)
-            return b(pw)
+            # crypt always requires `str`
+            return u(pw)
 
-    registerScheme(u'CRYPT', CryptDigestScheme())
+    registerScheme('CRYPT', CryptDigestScheme())
 
 
 class MySQLDigestScheme:
 
     def encrypt(self, pw):
         pw = u(pw)
-        nr = long(1345345333)
+        nr = 1345345333
         add = 7
-        nr2 = long(0x12345671)
+        nr2 = int(0x12345671)
         for i in pw:
             if i == ' ' or i == '\t':
                 continue
             nr ^= (((nr & 63) + add) * ord(i)) + (nr << 8)
             nr2 += (nr2 << 8) ^ nr
             add += ord(i)
-        r0 = nr & ((long(1) << 31) - long(1))
-        r1 = nr2 & ((long(1) << 31) - long(1))
-        return (u"%08lx%08lx" % (r0, r1)).encode('ascii')
+        r0 = nr & ((1 << 31) - 1)
+        r1 = nr2 & ((1 << 31) - 1)
+        return f'{r0:08x}{r1:08x}'.encode('ascii')
 
     def validate(self, reference, attempt):
         a = self.encrypt(attempt)
         return constant_time_compare(a, reference)
 
 
-registerScheme(u'MYSQL', MySQLDigestScheme())
+registerScheme('MYSQL', MySQLDigestScheme())
 
 
 def pw_validate(reference, attempt):
@@ -266,7 +275,7 @@ def pw_validate(reference, attempt):
     notation.  Reference is the correct password, attempt is clear text
     password attempt."""
     reference = b(reference)
-    for id, prefix, scheme in _schemes:
+    for id, prefix, scheme in _getSortedSchemes():
         lp = len(prefix)
         if reference[:lp] == b(prefix):
             return scheme.validate(reference[lp:], attempt)
@@ -276,18 +285,18 @@ def pw_validate(reference, attempt):
 
 def is_encrypted(pw):
     pw = b(pw)
-    for id, prefix, scheme in _schemes:
+    for id, prefix, scheme in _getSortedSchemes():
         lp = len(prefix)
         if pw[:lp] == b(prefix):
             return 1
     return 0
 
 
-def pw_encrypt(pw, encoding=u'SSHA'):
+def pw_encrypt(pw, encoding='SSHA'):
     """Encrypt the provided plain text password using the encoding if provided
     and return it in an LDAP-style representation."""
     encoding = u(encoding)
-    for id, prefix, scheme in _schemes:
+    for id, prefix, scheme in _getSortedSchemes():
         if encoding == id:
             return b(prefix) + scheme.encrypt(pw)
     raise ValueError('Not supported: %s' % encoding)
