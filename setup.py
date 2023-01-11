@@ -56,9 +56,6 @@ setup(
         "Authentication/Directory :: LDAP",
     ],
     python_requires='>=3.7',
-    install_requires=[
-        'six',
-    ],
     extras_require={
         'test': [
             'pytest',
