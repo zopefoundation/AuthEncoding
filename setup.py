@@ -18,7 +18,7 @@ from setuptools import setup
 
 setup(
     name='AuthEncoding',
-    version='5.0.dev0',
+    version='5.0',
     url='https://github.com/zopefoundation/AuthEncoding',
     project_urls={
         'Sources': 'https://github.com/zopefoundation/AuthEncoding',
