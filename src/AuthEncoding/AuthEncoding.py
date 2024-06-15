@@ -179,7 +179,7 @@ registerScheme('SHA256', SHA256DigestScheme())
 # - installed via the 'bcrypt' extra
 try:
     import bcrypt
-except ImportError:
+except ModuleNotFoundError:
     bcrypt = None
 
 
