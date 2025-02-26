@@ -27,7 +27,7 @@ def testListSchemes():
 @pytest.mark.parametrize('schema_id', AuthEncoding.listSchemes())
 @pytest.mark.parametrize(
     'password',
-    ['good_pw', 'gööd_pw', to_bytes('gööd_pw')])
+    ['good_pw', 'gööd_pw', 'g€€d_pw', to_bytes('gööd_pw')])
 def testGoodPassword(schema_id, password):
     enc = AuthEncoding.pw_encrypt(password, schema_id)
     assert enc != password
