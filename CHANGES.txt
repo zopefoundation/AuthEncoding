@@ -4,6 +4,9 @@ Changelog
 6.0 (unreleased)
 ----------------
 
+- Add support for letters that are not part of the latin-1 character set.
+  (`#17 <https://github.com/zopefoundation/AuthEncoding/issues/17>`_)
+
 - Add preliminary support for Python 3.14.
 
 - Add support for Python 3.12 and 3.13.
