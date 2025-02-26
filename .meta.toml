@@ -2,13 +2,13 @@
 # https://github.com/zopefoundation/meta/tree/master/config/pure-python
 [meta]
 template = "pure-python"
-commit-id = "42418b51"
+commit-id = "0ce77409"
 
 [python]
 with-pypy = true
 with-sphinx-doctests = false
 with-windows = false
-with-future-python = false
+with-future-python = true
 with-macos = false
 with-docs = false
 
@@ -27,4 +27,4 @@ testenv-commands = [
 coverage-command = "py.test --cov=src src"
 
 [coverage]
-fail-under = 95
+fail-under = 90

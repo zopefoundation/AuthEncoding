@@ -25,18 +25,18 @@ setup(
         'Issue Tracker': ('https://github.com/zopefoundation/'
                           'AuthEncoding/issues'),
     },
-    license='ZPL 2.1',
+    license='ZPL-2.1',
     description="Framework for handling LDAP style password hashes.",
     author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.org',
+    author_email='zope-dev@zope.dev',
     long_description=(open('README.txt').read() + '\n' +
                       open('CHANGES.txt').read()),
+    long_description_content_type='text/x-rst',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     classifiers=[
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
-        "Framework :: Zope2",
         "Framework :: Zope",
         "Framework :: Zope :: 2",
         "Framework :: Zope :: 4",
@@ -45,17 +45,17 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: System :: Systems Administration ::"
         " Authentication/Directory :: LDAP",
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.9',
     extras_require={
         'test': [
             'pytest',
