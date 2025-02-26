@@ -16,8 +16,8 @@
 import pytest
 
 from .. import AuthEncoding
-from ..compat import b
-from ..compat import u
+from ..compat import to_bytes
+from ..compat import to_string
 
 
 def testListSchemes():
@@ -25,25 +25,28 @@ def testListSchemes():
 
 
 @pytest.mark.parametrize('schema_id', AuthEncoding.listSchemes())
-@pytest.mark.parametrize('password', ['good_pw', 'gööd_pw', b('gööd_pw')])
+@pytest.mark.parametrize(
+    'password',
+    ['good_pw', 'gööd_pw', to_bytes('gööd_pw')])
 def testGoodPassword(schema_id, password):
     enc = AuthEncoding.pw_encrypt(password, schema_id)
     assert enc != password
     assert AuthEncoding.pw_validate(enc, password)
-    assert AuthEncoding.pw_validate(u(enc), password)
+    assert AuthEncoding.pw_validate(to_string(enc), password)
     assert AuthEncoding.is_encrypted(enc)
     assert not AuthEncoding.is_encrypted(password)
 
 
 @pytest.mark.parametrize('schema_id', AuthEncoding.listSchemes())
 @pytest.mark.parametrize(
-    'password', ['OK_pa55w0rd \n', 'OK_pä55w0rd \n', b('OK_pä55w0rd \n')])
+    'password',
+    ['OK_pa55w0rd \n', 'OK_pä55w0rd \n', to_bytes('OK_pä55w0rd \n')])
 def testBadPassword(schema_id, password):
     enc = AuthEncoding.pw_encrypt(password, schema_id)
     assert enc != password
     assert not AuthEncoding.pw_validate(enc, 'xxx')
     assert not AuthEncoding.pw_validate(enc, b'xxx')
-    assert not AuthEncoding.pw_validate(u(enc), 'xxx')
+    assert not AuthEncoding.pw_validate(to_string(enc), 'xxx')
     assert not AuthEncoding.pw_validate(enc, enc)
     if schema_id != 'CRYPT':
         # crypt truncates passwords and would fail this test.

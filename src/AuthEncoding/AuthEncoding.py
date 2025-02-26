@@ -23,8 +23,8 @@ from hashlib import sha256
 from os import getpid
 from os import urandom
 
-from .compat import b
-from .compat import u
+from .compat import to_bytes
+from .compat import to_string
 
 
 try:
@@ -138,7 +138,7 @@ class SSHADigestScheme:
         return constant_time_compare(compare, reference)
 
     def _encrypt_with_salt(self, pw, salt):
-        pw = b(pw)
+        pw = to_bytes(pw)
         return b2a_base64(sha(pw + salt).digest() + salt)[:-1]
 
 
@@ -155,7 +155,7 @@ class SHADigestScheme:
         return constant_time_compare(compare, reference)
 
     def _encrypt(self, pw):
-        pw = b(pw)
+        pw = to_bytes(pw)
         return b2a_base64(sha(pw).digest())[:-1]
 
 
@@ -165,7 +165,7 @@ registerScheme('SHA', SHADigestScheme())
 class SHA256DigestScheme:
 
     def encrypt(self, pw):
-        return b(sha256(b(pw)).hexdigest())
+        return to_bytes(sha256(to_bytes(pw)).hexdigest())
 
     def validate(self, reference, attempt):
         a = self.encrypt(attempt)
@@ -230,16 +230,17 @@ if crypt is not None:
             return _choice(choices) + _choice(choices)
 
         def encrypt(self, pw):
-            return b(crypt(self._recode_password(pw), self.generate_salt()))
+            return to_bytes(crypt(self._recode_password(pw),
+                            self.generate_salt()))
 
         def validate(self, reference, attempt):
             attempt = self._recode_password(attempt)
-            a = b(crypt(attempt, reference[:2].decode('ascii')))
+            a = to_bytes(crypt(attempt, reference[:2].decode('ascii')))
             return constant_time_compare(a, reference)
 
         def _recode_password(self, pw):
             # crypt always requires `str`
-            return u(pw)
+            return to_string(pw)
 
     registerScheme('CRYPT', CryptDigestScheme())
 
@@ -247,7 +248,7 @@ if crypt is not None:
 class MySQLDigestScheme:
 
     def encrypt(self, pw):
-        pw = u(pw)
+        pw = to_string(pw)
         nr = 1345345333
         add = 7
         nr2 = int(0x12345671)
@@ -273,20 +274,20 @@ def pw_validate(reference, attempt):
     """Validate the provided password string, which uses LDAP-style encoding
     notation.  Reference is the correct password, attempt is clear text
     password attempt."""
-    reference = b(reference)
+    reference = to_bytes(reference)
     for id, prefix, scheme in _getSortedSchemes():
         lp = len(prefix)
-        if reference[:lp] == b(prefix):
+        if reference[:lp] == to_bytes(prefix):
             return scheme.validate(reference[lp:], attempt)
     # Assume cleartext.
-    return constant_time_compare(reference, b(attempt))
+    return constant_time_compare(reference, to_bytes(attempt))
 
 
 def is_encrypted(pw):
-    pw = b(pw)
+    pw = to_bytes(pw)
     for id, prefix, scheme in _getSortedSchemes():
         lp = len(prefix)
-        if pw[:lp] == b(prefix):
+        if pw[:lp] == to_bytes(prefix):
             return 1
     return 0
 
@@ -294,10 +295,10 @@ def is_encrypted(pw):
 def pw_encrypt(pw, encoding='SSHA'):
     """Encrypt the provided plain text password using the encoding if provided
     and return it in an LDAP-style representation."""
-    encoding = u(encoding)
+    encoding = to_string(encoding)
     for id, prefix, scheme in _getSortedSchemes():
         if encoding == id:
-            return b(prefix) + scheme.encrypt(pw)
+            return to_bytes(prefix) + scheme.encrypt(pw)
     raise ValueError('Not supported: %s' % encoding)
 
 
