@@ -75,6 +75,8 @@ if 'CRYPT' in AuthEncoding.listSchemes():
 @pytest.mark.parametrize('schema_id', long_password_parameters)
 def testLongPassword(schema_id):
     pw = 'Pw' * 2000
+    if schema_id == 'BCRYPT':
+        pw = pw[:72]  # bcrypt has a max length of 72 bytes
     enc = AuthEncoding.pw_encrypt(pw, schema_id)
     assert AuthEncoding.pw_validate(enc, pw)
     assert not AuthEncoding.pw_validate(enc, enc)

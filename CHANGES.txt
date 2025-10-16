@@ -4,6 +4,7 @@ Changelog
 6.1 (unreleased)
 ----------------
 
+- Fix tests for newer ``bcrypt`` versions.
 
 6.0 (2024-02-26)
 ----------------
