@@ -4,6 +4,8 @@ Changelog
 6.1 (unreleased)
 ----------------
 
+- Drop support for Python 3.9.
+
 - Fix tests for newer ``bcrypt`` versions.
 
 6.0 (2024-02-26)
