@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "AuthEncoding"
-version = "6.1"
+version = "6.2.dev0"
 description = "Framework for handling LDAP style password hashes."
 license = "ZPL-2.1"
 classifiers = [
