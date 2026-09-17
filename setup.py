@@ -12,59 +12,8 @@
 #
 ##############################################################################
 
-from setuptools import find_packages
 from setuptools import setup
 
 
-setup(
-    name='AuthEncoding',
-    version='6.1.dev0',
-    url='https://github.com/zopefoundation/AuthEncoding',
-    project_urls={
-        'Sources': 'https://github.com/zopefoundation/AuthEncoding',
-        'Issue Tracker': ('https://github.com/zopefoundation/'
-                          'AuthEncoding/issues'),
-    },
-    license='ZPL-2.1',
-    description="Framework for handling LDAP style password hashes.",
-    author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.dev',
-    long_description=(open('README.txt').read() + '\n' +
-                      open('CHANGES.txt').read()),
-    long_description_content_type='text/x-rst',
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
-    classifiers=[
-        "Development Status :: 6 - Mature",
-        "Environment :: Web Environment",
-        "Framework :: Zope",
-        "Framework :: Zope :: 2",
-        "Framework :: Zope :: 4",
-        "Framework :: Zope :: 5",
-        "License :: OSI Approved :: Zope Public License",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Programming Language :: Python :: 3.13",
-        "Programming Language :: Python :: 3.14",
-        "Programming Language :: Python :: 3.15",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-        "Topic :: System :: Systems Administration ::"
-        " Authentication/Directory :: LDAP",
-    ],
-    python_requires='>=3.10',
-    extras_require={
-        'test': [
-            'pytest',
-        ],
-        'bcrypt': [
-            'bcrypt',
-        ],
-    },
-    include_package_data=True,
-    zip_safe=False,
-)
+# See pyproject.toml for package metadata
+setup()
